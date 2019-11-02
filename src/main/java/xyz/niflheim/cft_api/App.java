@@ -5,7 +5,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import xyz.niflheim.cft_api.db.Mongo;
 import xyz.niflheim.cft_api.db.objects.User;
 import xyz.niflheim.cft_api.db.util.Connection;
-import xyz.niflheim.cft_api.queue.RQueue;
 
 @SpringBootApplication
 public class App {
@@ -17,14 +16,5 @@ public class App {
         Mongo mongo = new Mongo(Connection.getDefault(), true, new User());
 
         SpringApplication.run(App.class, args);
-
-//        RQueue workQueue = new RQueue("localhost", "test");
-//
-//        workQueue.sendMessage("hello, world");
-//
-//        workQueue.registerDeliverCallback(((consumerTag, message) -> {
-//            String response = new String(message.getBody(), "UTF-8");
-//            System.out.println("Recieved message from work queue " + message);
-//        }));
     }
 }
