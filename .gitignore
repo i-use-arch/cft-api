@@ -3,5 +3,4 @@
 /build/
 /out/
 *.jar
-application.conf
 cft-api.iml
