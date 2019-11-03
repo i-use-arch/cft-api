@@ -68,6 +68,10 @@ public abstract class DataManager {
         return (T) getCollection(type).find(eq("_id", id)).first();
     }
 
+    protected <T extends DataObject> T getByField(String field, String value, Class<T> type, int limit) {
+        return (T) getCollection(type).find(eq(field, value)).limit(limit);
+    }
+
     protected <T extends DataObject> void insert(T object) {
         getCollection(object.getClass()).insertOne(object);
     }

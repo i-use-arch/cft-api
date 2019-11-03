@@ -6,6 +6,9 @@ import xyz.niflheim.cft_api.db.annotation.Collection;
 public class Submission extends DataObject {
     private String user;
     private String code;
+    private String lang;
+    private String output;
+    private String status;
 
     public Submission() {
     }
@@ -18,6 +21,14 @@ public class Submission extends DataObject {
         return code;
     }
 
+    public String getOutput() {
+        return output;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
     public Submission setUser(String user) {
         this.user = user;
         return this;
@@ -25,6 +36,16 @@ public class Submission extends DataObject {
 
     public Submission setCode(String code) {
         this.code = code;
+        return this;
+    }
+
+    public Submission setOutput(String output) {
+        this.output = output;
+        return this;
+    }
+
+    public Submission setStatus(String status) {
+        this.status = status;
         return this;
     }
 }
