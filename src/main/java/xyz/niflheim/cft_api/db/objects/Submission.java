@@ -21,6 +21,10 @@ public class Submission extends DataObject {
         return code;
     }
 
+    public String getLang() {
+        return lang;
+    }
+
     public String getOutput() {
         return output;
     }
@@ -36,6 +40,11 @@ public class Submission extends DataObject {
 
     public Submission setCode(String code) {
         this.code = code;
+        return this;
+    }
+
+    public Submission setLang(String lang) {
+        this.lang = lang;
         return this;
     }
 
