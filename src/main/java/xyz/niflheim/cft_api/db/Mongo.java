@@ -8,9 +8,8 @@ public class Mongo extends DataManager {
         super();
     }
 
-    public Mongo(Connection conn, boolean cloud, DataObject... objects) {
+    public Mongo(Connection conn, boolean cloud) {
         super(conn, cloud);
-        setMappings(objects);
     }
 
     public User getUserById(long id) {
@@ -18,7 +17,7 @@ public class Mongo extends DataManager {
     }
 
     public User getUserByField(String field, String value) {
-        return getByField(field, value, User.class, 1);
+        return getByField(field, value, User.class);
     }
 
     public Problem getProblemById(long id) {
@@ -26,7 +25,7 @@ public class Mongo extends DataManager {
     }
 
     public Problem getProblemByField(String field, String value) {
-        return getByField(field, value, Problem.class, 1);
+        return getByField(field, value, Problem.class);
     }
 
     public Submission getSubmissionById(long id) {
@@ -34,7 +33,7 @@ public class Mongo extends DataManager {
     }
 
     public Submission getSubmissionByField(String field, String value) {
-        return getByField(field, value, Submission.class, 1);
+        return getByField(field, value, Submission.class);
     }
 
     public Case getCaseById(long id) {
@@ -42,7 +41,7 @@ public class Mongo extends DataManager {
     }
 
     public Case getCaseByField(String field, String value) {
-        return getByField(field, value, Case.class, 1);
+        return getByField(field, value, Case.class);
     }
 
     public void updateUser(User user) {

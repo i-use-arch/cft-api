@@ -6,7 +6,6 @@ import xyz.niflheim.cft_api.db.annotation.Collection;
 import java.util.Arrays;
 import java.util.List;
 
-@Collection(table = "Problems")
 public class Problem extends DataObject {
     private String name;
     private String description;

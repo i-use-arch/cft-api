@@ -2,7 +2,6 @@ package xyz.niflheim.cft_api.db.objects;
 
 import xyz.niflheim.cft_api.db.annotation.Collection;
 
-@Collection(table = "Users")
 public class User extends DataObject {
     private String username;
     private String name;

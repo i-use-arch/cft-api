@@ -11,10 +11,9 @@ import org.bson.codecs.pojo.PojoCodecProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import xyz.niflheim.cft_api.AppConfig;
-import xyz.niflheim.cft_api.db.objects.DataObject;
+import xyz.niflheim.cft_api.db.objects.*;
 import xyz.niflheim.cft_api.db.util.Connection;
 
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -30,6 +29,13 @@ public abstract class DataManager {
     protected MongoClient client;
     protected MongoDatabase database;
     protected CodecRegistry codec;
+
+    {
+        classToCollection.put(User.class, "Users");
+        classToCollection.put(Problem.class, "Problems");
+        classToCollection.put(Case.class, "Cases");
+        classToCollection.put(Submission.class, "Submissions");
+    }
 
     protected DataManager() {
         this(Connection.getDefault(), false);
@@ -60,16 +66,12 @@ public abstract class DataManager {
         database = client.getDatabase(AppConfig.MONGO_NAME).withCodecRegistry(codec);
     }
 
-    protected void setMappings(DataObject... objects) {
-        Arrays.stream(objects).forEach(object -> classToCollection.put(object.getClass(), object.getCollection()));
-    }
-
     protected <T extends DataObject> T get(long id, Class<T> type) {
         return (T) getCollection(type).find(eq("_id", id)).first();
     }
 
-    protected <T extends DataObject> T getByField(String field, String value, Class<T> type, int limit) {
-        return (T) getCollection(type).find(eq(field, value)).limit(limit);
+    protected <T extends DataObject> T getByField(String field, String value, Class<T> type) {
+        return (T) getCollection(type).find(eq(field, value)).first();
     }
 
     protected <T extends DataObject> void insert(T object) {
@@ -77,12 +79,7 @@ public abstract class DataManager {
     }
 
     protected <T extends DataObject> void update(long id, T object) {
-        if (object.isExist())
-            getCollection(object.getClass()).replaceOne(eq("_id", id), object, options);
-        else {
-            object.setExist(true);
-            insert(object);
-        }
+        getCollection(object.getClass()).replaceOne(eq("_id", id), object, options);
     }
 
     protected <T extends DataObject> void delete(long id, Class<T> type) {

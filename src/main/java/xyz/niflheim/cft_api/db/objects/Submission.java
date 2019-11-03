@@ -1,8 +1,5 @@
 package xyz.niflheim.cft_api.db.objects;
 
-import xyz.niflheim.cft_api.db.annotation.Collection;
-
-@Collection(table = "Submissions")
 public class Submission extends DataObject {
     private String user;
     private String code;
