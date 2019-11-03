@@ -1,5 +1,6 @@
 package xyz.niflheim.cft_api.api;
 
+import com.rabbitmq.client.MessageProperties;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -7,6 +8,8 @@ import org.springframework.web.bind.annotation.*;
 import xyz.niflheim.cft_api.App;
 import xyz.niflheim.cft_api.db.objects.Submission;
 import xyz.niflheim.cft_api.db.objects.User;
+
+import java.rmi.server.ExportException;
 
 @RestController
 public class Api {
@@ -29,9 +32,18 @@ public class Api {
     }
 
     @CrossOrigin(origins = "*")
-    @PostMapping(value = "/submission/post", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public ResponseEntity postSubmission(@RequestBody Submission submission) {
-        App.getMongo().updateSubmission(submission);
+    @PostMapping(value = "/submission/post")
+    public ResponseEntity postSubmission(@RequestBody String submission) {
+        Submission s = new Submission();
+        s.setCode(submission).setStatus("PENDING");
+        App.getMongo().updateSubmission(s);
+
+        try {
+            String id = Long.toString(s.getId());
+            App.getChannel().basicPublish("", "submission_queue", MessageProperties.PERSISTENT_TEXT_PLAIN, id.getBytes("UTF-8"));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return ResponseEntity.ok(HttpStatus.OK);
     }
 }
